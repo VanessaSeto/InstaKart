@@ -202,11 +202,14 @@ gList = gList[gList.find('[') + 1:gList.find(']')]
 gList = gList.split(",")
 for i in range(0, len(gList)):
     gList[i] = gList[i].strip()
+
+G = GroceryMap(sampleMap)
 with open('list.txt', 'w') as f:
     for item in gList:
-        f.write(item + "\n")
-os.system("scp list.txt danielwang647@35.193.165.121:/var/www/html/list.txt")
-G = GroceryMap(sampleMap)
+        if(item in G.groceryList):
+            f.write(item + "\n")
+os.system("scp ./list.txt danielwang647@35.193.165.121:/var/www/html/list.txt")
+
 window = tk.Tk()
 canvas = tk.Canvas(window, width=1200, height=1200, background='white')
 canvas.pack()
