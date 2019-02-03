@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css"> 
+        <title>InstaKart</title>
+
+    </head>
+
+    <body>
+        <!-- Title-->
+        <div class="container" style="width:auto; background-color: #DCDCDC;">
+            <div class="container" style="padding:20px; padding-left:30px;">         
+                <div id="titleFont">InstaKart</div>
+            </div>
+        </div>
+    </body>
+
+    <div class="row" style="height:20px;">
+    </div>
+
+    <div class="row">
+        <div class="column" style="padding:0px; height:400px; width:400px; border: 7px solid #163E6E">
+            <div class="container">
+                <div style="padding:10px; margin: 0px; background-color: #163E6E;">   
+                    <div id="otherFont">Shopping List</div>
+                </div>
+
+                <div style="padding:10px; margin: 0px;">   
+                    <div id="smallFont">Add items to your shopping list: </div>
+                </div>
+                <div style="padding:30px; padding-top:0px; margin: 0px;">   
+                    <ul id="myUL">
+                        <li>Redbull</li>
+                        <li>Chips</li>
+                        <li>Salmon</li>
+                        <li>Juice</li>
+                        <li>Cheese</li>
+                        <li>Ice Cream</li>
+                    </ul>
+                </div>  
+            </div>    
+        </div>
+
+        <div class="column" style="width:40px;">
+        </div>
+
+        <div class="column" style="padding:0px; height:400px; width:900px; border: 7px solid #163E6E;">
+            <div class="container" style="border: 3px solid #163E6E">
+                <div style="padding:10px; background-color: #163E6E;">            
+                    <div id="otherFont">Grocery Store Map</div>
+                </div>    
+            </div>    
+        </div>
+    </div>
+
+    <script>
+        // Create a "close" button and append it to each list item
+        var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
+        }
+
+        // Click on a close button to hide the current list item
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+            var div = this.parentElement;
+            div.style.display = "none";
+        }
+        }
+
+        // Add a "checked" symbol when clicking on a list item
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+        if (ev.target.tagName === 'LI') {
+            ev.target.classList.toggle('checked');
+        }
+        }, false);
+
+        // Create a new list item when clicking on the "Add" button
+        function newElement() {
+        var li = document.createElement("li");
+        var inputValue = document.getElementById("myInput").value;
+        var t = document.createTextNode(inputValue);
+        li.appendChild(t);
+        if (inputValue === '') {
+            alert("You must write something!");
+        } else {
+            document.getElementById("myUL").appendChild(li);
+        }
+        document.getElementById("myInput").value = "";
+
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        li.appendChild(span);
+
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+            var div = this.parentElement;
+            div.style.display = "none";
+            }
+        }
+        }
+            
+    </script>
+
+</html>
