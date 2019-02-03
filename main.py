@@ -1,7 +1,10 @@
 import tkinter as tk
-from time import *
+from time import sleep
 from pyzbar.pyzbar import decode
 from PIL import Image
+import RPi.GPIO as GPIO
+from picamera import PiCamera
+
 sampleMap = [["-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1"],
 ["-1","SEAFOOD","SEAFOOD","SEAFOOD","SEAFOOD","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
 ["-1","SEAFOOD","SEAFOOD","SEAFOOD","SEAFOOD","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
@@ -174,10 +177,34 @@ def processQR(filePath):
     data = decode(Image.open(filePath))
     return data[0].data
 
-processQR("image.jpg")
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+camera = PiCamera()
+
+notPressed = True
+while notPressed:
+    if GPIO.input(24) == GPIO.HIGH:
+        camera.start_preview()
+        sleep(3)
+        camera.capture('image.jpg')
+        camera.stop_preview()
+        notPressed = False
+GPIO.cleanup()
+
+gList = processQR("image.jpg")
+gList = str(gList)
+gList = gList[gList.find('[') + 1:gList.find(']')]
+gList = gList.split(",")
+for i in range(0, len(gList)):
+    gList[i] = gList[i].strip()
 G = GroceryMap(sampleMap)
 window = tk.Tk()
 canvas = tk.Canvas(window, width=1200, height=1200, background='white')
 canvas.pack()
-G.find_departments(["Bass", "Yogurt"])
+G.find_departments(gList)
 G.getPath(canvas)
+with open('list.txt', 'w') as f:
+    for item in gList:
+        f.write("&s\n" & item)
