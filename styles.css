@@ -122,7 +122,9 @@
     display: table;
     clear: both;
   }
-  
+  #map{
+    height: 600px;
+  }
   /* Style the input */
   input {
     margin: 0;
