@@ -4,6 +4,7 @@ from pyzbar.pyzbar import decode
 from PIL import Image
 import RPi.GPIO as GPIO
 from picamera import PiCamera
+import os
 
 sampleMap = [["-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1"],
 ["-1","SEAFOOD","SEAFOOD","SEAFOOD","SEAFOOD","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
@@ -204,6 +205,7 @@ for i in range(0, len(gList)):
 with open('list.txt', 'w') as f:
     for item in gList:
         f.write(item + "\n")
+os.system("scp list.txt danielwang647@35.193.165.121:/var/www/html/list.txt")
 G = GroceryMap(sampleMap)
 window = tk.Tk()
 canvas = tk.Canvas(window, width=1200, height=1200, background='white')

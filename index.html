@@ -31,12 +31,6 @@
                 </div>
                 <div style="padding:30px; padding-top:0px; margin: 0px;">   
                     <ul id="myUL">
-                        <li>Redbull</li>
-                        <li>Chips</li>
-                        <li>Salmon</li>
-                        <li>Juice</li>
-                        <li>Cheese</li>
-                        <li>Ice Cream</li>
                     </ul>
                 </div>  
             </div>    
@@ -55,6 +49,49 @@
     </div>
 
     <script>
+    function doGET(path, callback) {
+        return new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    // The request is done; did it work?
+                    if (xhr.status == 200) {
+                        // Yes, use `xhr.responseText` to resolve the promise
+                        resolve(xhr.responseText);
+                    } else {
+                        // No, reject the promise
+                        reject(xhr);
+                    }
+                 }
+            };
+            xhr.open("GET", path);
+            xhr.send();
+        });
+    }
+
+    // Do the request
+    doGET("./list.txt")
+        .then(function(fileData) {
+        console.log(typeof fileData);
+        var dat = fileData.trim().split("\n")
+        var li, t;
+          for(var inputValue in dat){
+            li = document.createElement("LI");
+            t = document.createTextNode(dat[inputValue]);
+            li.appendChild(t);
+            document.getElementById("myUL").appendChild(li);
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+          }
+          }
+        )
+        .catch(function(xhr) {
+            // The call failed, look at `xhr` for details
+        });
+        
         // Create a "close" button and append it to each list item
         var myNodelist = document.getElementsByTagName("LI");
         var i;
