@@ -1,8 +1,7 @@
 import tkinter as tk
 from time import *
+from pyzbar.pyzbar import decode
 from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
 sampleMap = [["-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1"],
 ["-1","SEAFOOD","SEAFOOD","SEAFOOD","SEAFOOD","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
 ["-1","SEAFOOD","SEAFOOD","SEAFOOD","SEAFOOD","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
@@ -171,6 +170,11 @@ class GroceryMap:
 def d(point1, point2, canvas, scale = 1):
     canvas.create_line(point1.x * scale, point1.y * scale, point2.x * scale, point2.y * scale, fill="#476042", arrow = tk.LAST)
 
+def processQR(filePath):
+    data = decode(Image.open(filePath))
+    return data[0].data
+
+processQR("image.jpg")
 G = GroceryMap(sampleMap)
 window = tk.Tk()
 canvas = tk.Canvas(window, width=1200, height=1200, background='white')
