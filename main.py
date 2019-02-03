@@ -1,22 +1,25 @@
 import tkinter as tk
-
+from time import *
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 sampleMap = [["-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1"],
-["-1","SEAFOOD","SEAFOOD","SEAFOOD","0","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
-["-1","SEAFOOD","SEAFOOD","SEAFOOD","0","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
-["-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
-["-1","BULK","0","0","1","0","2","0","3","0","4","0","5","0","6","0","ALCOHOL","ALCOHOL","0","-1"],
-["-1","BULK","0","0","1","0","2","0","3","0","4","0","5","0","6","0","ALCOHOL","ALCOHOL","0","-1"],
+["-1","SEAFOOD","SEAFOOD","SEAFOOD","SEAFOOD","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
+["-1","SEAFOOD","SEAFOOD","SEAFOOD","SEAFOOD","MEAT","MEAT","MEAT","MEAT","MEAT","MEAT","0","DAIRY","DAIRY","DAIRY","0","ALCOHOL","ALCOHOL","0","-1"],
+["-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","ALCOHOL","ALCOHOL","ALCOHOL","0","-1"],
+["-1","BULK","0","0","1","0","2","0","3","0","4","0","5","0","6","ALCOHOL","ALCOHOL","ALCOHOL","0","-1"],
+["-1","BULK","0","0","1","0","2","0","3","0","4","0","5","0","6","ALCOHOL","ALCOHOL","ALCOHOL","0","-1"],
 ["-1","BULK","0","0","1","0","2","0","3","0","4","0","5","0","6","0","0","0","0","-1"],
 ["-1","0","0","0","1","0","2","0","3","0","4","0","5","0","6","0","BAKERY","BAKERY","0","-1"],
-["-1","PRODUCE","0","0","1","0","2","0","3","0","4","0","5","0","6","0","BAKERY","BAKERY","0","-1"],
-["-1","PRODUCE","0","0","1","0","2","0","3","0","4","0","5","0","6","0","BAKERY","BAKERY","0","-1"],
-["-1","PRODUCE","0","0","1","0","2","0","3","0","0","0","0","0","0","0","0","0","0","-1"],
-["-1","PRODUCE","0","0","1","0","2","0","3","0","FROZEN","FROZEN","FROZEN","FROZEN","0","DELI","DELI","DELI","0","-1"],
-["-1","PRODUCE","0","0","1","0","2","0","3","0","FROZEN","FROZEN","FROZEN","FROZEN","0","DELI","DELI","DELI","0","-1"],
-["-1","PRODUCE","0","0","1","0","2","0","3","0","FROZEN","FROZEN","FROZEN","FROZEN","0","DELI","DELI","DELI","0","-1"],
+["-1","PRODUCE","PRODUCE","0","1","0","2","0","3","0","4","0","5","0","6","0","BAKERY","BAKERY","0","-1"],
+["-1","PRODUCE","PRODUCE","0","1","0","2","0","3","0","4","0","5","0","6","0","BAKERY","BAKERY","0","-1"],
+["-1","PRODUCE","PRODUCE","0","1","0","2","0","3","0","0","0","0","0","0","0","0","0","0","-1"],
+["-1","PRODUCE","PRODUCE","0","1","0","2","0","3","0","FROZEN","FROZEN","FROZEN","FROZEN","0","DELI","DELI","DELI","0","-1"],
+["-1","PRODUCE","PRODUCE","0","1","0","2","0","3","0","FROZEN","FROZEN","FROZEN","FROZEN","0","DELI","DELI","DELI","0","-1"],
+["-1","PRODUCE","PRODUCE","0","1","0","2","0","3","0","FROZEN","FROZEN","FROZEN","FROZEN","0","DELI","DELI","DELI","0","-1"],
 ["-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
-["-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
-["-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
+["-1","FLORIST","FLORIST","FLORIST","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
+["-1","FLORIST","FLORIST","FLORIST","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
 ["-1","FLORIST","FLORIST","FLORIST","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
 ["-1","FLORIST","FLORIST","FLORIST","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1"],
 ["-1","DOOR","DOOR","DOOR","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1","-1"],
@@ -35,6 +38,8 @@ class Point:
     
     def __str__(self):
         return "(" + str(self.x) + "," + str(self.y) + ")"
+
+    
     
     
     
@@ -59,9 +64,14 @@ class DepartmentStore:
         if min_distance == distance_4:
             return (min_distance, self.point2, other.point2)
 
-    def draw(self, canvas, scale=1, fill='red'):
+    def d(self, canvas, scale=1, fill='#D8D8D8'):
         canvas.create_rectangle(self.point1.x * scale, self.point1.y * scale, self.point2.x * scale, self.point2.y * scale, fill=fill)
-
+        if(self.point1.y == self.point2.y):
+            canvas.create_text((self.point1.x + self.point2.x)/ 2 * scale, (self.point1.y + self.point2.y) / 2 * scale + 8, fill='#163e6e', font = ('helvitica', 10), text=self.name)
+        elif(self.point2.x - self.point1.x >= self.point2.y - self.point1.y):
+            canvas.create_text((self.point1.x + self.point2.x)/ 2 * scale, (self.point1.y + self.point2.y) / 2 * scale, fill='#163e6e', font = ('helvitica', 10), text=self.name)
+        else:
+            canvas.create_text((self.point1.x + self.point2.x) / 2 * scale, (self.point1.y + self.point2.y) / 2 * scale, fill='#163e6e', font = ('helvitica', 10), text="\n".join(self.name))
     def __str__(self):
         return self.name + ": {" + str(self.point1) + ", " + str(self.point2) + "}"
 
@@ -73,7 +83,17 @@ class GroceryMap:
         self.door = ""
         self.done = {}
         self.serialize()
-        
+        self.groceryList = {"Bass" : "SEAFOOD", "Shrimp": "Seafood", "Tilapia": "Seafood", "Mussels": "Seafood", 
+                 "Tuna": "Seafood", "Steak": "Meat", "Chicken" : "Meat", "Turkey" : "Meat", "Beef" : "Meat", "Lamb": "Meat",
+                   "Tofu": "Bulk", "Pinto beans" : "Bulk", "Rice": "Bulk", "Carrots": "Produce", "Celery": "Produce", 
+                        "Grapes": "Produce", "Apples": "Produce", "Bananas": "Produce", "Oranges": "Produce", "Cabbage": "Produce", 
+                      "Whole Milk": "Dairy", "Eggs": "Dairy", "Yogurt": "DAIRY", "Cream Cheese": "Dairy", "Krafts Singles": "Dairy", 
+               "Red Wine": "Alcohol", "Tequila": "Alcohol", "Beer": "Alcohol", "Whiskey": "Alcohol", "Rum": "Alcohol", "Vanilla Cake": "Bakery",
+                 "Cupcakes": "Bakery", "Icing": "Bakery", "Crossiants": "Bakery", "Muffins": "Bakery", "Donuts": "Bakery",
+                 "Ham Sandwich": "Deli", "Tomato Soup": "Deli", "Turkey Sub": "Deli", "Pastrami": "Deli", "Corned Beef": "Deli",
+                  "Popsicles": "Frozen", "Pizza": "Frozen", "Ice Cream":"Frozen", "Kellogs Waffles": "Frozen", "Hot Cheetos": "Grocery", 
+                   "Lays": "Grocery", "Salt": "Grocery", "Pasta": "Grocery", "Peanut Butter": "Grocery", "Fruit Snacks": "Grocery",
+                    "Salt": "Grocery"}
     def getRows(self):
         return len(self.map)
 
@@ -113,13 +133,15 @@ class GroceryMap:
                     self.done[dept] = 0
 
 #deptList is list of all DepartmentStore objects
-    def getPath(self, canvas):
+    def getPath(self, canvas, scale=40):
         path = []
         cur = self.door
-        cur.draw(canvas, 25, fill='red')
+        cur.d(canvas, scale, fill='#757575')
         path.append(cur)
         mini = 999999999
-        while(len(self.deptList) > 0):
+        for each in self.deptList:
+            each.d(canvas, scale)
+        while(len(self.gotoList) > 0):
             for i in range(0, len(self.gotoList)):
                 dist = cur.findDistance(self.gotoList[i])
                 if(dist[0] < mini):
@@ -129,24 +151,29 @@ class GroceryMap:
                    goto = self.gotoList[i]
                    index = i
             path.append(goto)
-            goto.draw(canvas, 25, fill='blue')
+            goto.d(canvas, scale)
             cur = goto
             self.gotoList.pop(index)
             mini = 999999999
-            draw(pointA, pointB, canvas, 25)
+            d(pointA, pointB, canvas, scale)
         path.append(self.door)
         return path
 
-def draw(point1, point2, canvas, scale = 1):
+    def find_departments(self, food_list):
+        departments = set({})
+        for food in food_list:
+            department = self.groceryList[food]
+            for total_departments in self.deptList:
+                if total_departments.name == department:
+                    departments.add(total_departments)
+        self.gotoList = list(departments)
+
+def d(point1, point2, canvas, scale = 1):
     canvas.create_line(point1.x * scale, point1.y * scale, point2.x * scale, point2.y * scale, fill="#476042", arrow = tk.LAST)
 
 G = GroceryMap(sampleMap)
 window = tk.Tk()
-canvas = tk.Canvas(window, width=1200, height=1200)
+canvas = tk.Canvas(window, width=1200, height=1200, background='white')
 canvas.pack()
+G.find_departments(["Bass", "Yogurt"])
 G.getPath(canvas)
-window.mainloop()
-
-
-
-
