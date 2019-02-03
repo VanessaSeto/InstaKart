@@ -164,10 +164,12 @@ class GroceryMap:
     def find_departments(self, food_list):
         departments = set({})
         for food in food_list:
-            department = self.groceryList[food]
-            for total_departments in self.deptList:
-                if total_departments.name == department:
-                    departments.add(total_departments)
+            if(food in self.groceryList):
+                department = self.groceryList[food]
+                department = department.upper()
+                for total_departments in self.deptList:
+                    if total_departments.name == department:
+                        departments.add(total_departments)
         self.gotoList = list(departments)
 
 def d(point1, point2, canvas, scale = 1):
@@ -199,12 +201,13 @@ gList = gList[gList.find('[') + 1:gList.find(']')]
 gList = gList.split(",")
 for i in range(0, len(gList)):
     gList[i] = gList[i].strip()
+with open('list.txt', 'w') as f:
+    for item in gList:
+        f.write(item + "\n")
 G = GroceryMap(sampleMap)
 window = tk.Tk()
 canvas = tk.Canvas(window, width=1200, height=1200, background='white')
 canvas.pack()
 G.find_departments(gList)
 G.getPath(canvas)
-with open('list.txt', 'w') as f:
-    for item in gList:
-        f.write("&s\n" & item)
+
