@@ -92,7 +92,7 @@ class GroceryMap:
                         "Grapes": "Produce", "Apples": "Produce", "Bananas": "Produce", "Oranges": "Produce", "Cabbage": "Produce", 
                       "Whole Milk": "Dairy", "Eggs": "Dairy", "Yogurt": "DAIRY", "Cream Cheese": "Dairy", "Krafts Singles": "Dairy", 
                "Red Wine": "Alcohol", "Tequila": "Alcohol", "Beer": "Alcohol", "Whiskey": "Alcohol", "Rum": "Alcohol", "Vanilla Cake": "Bakery",
-                 "Cupcakes": "Bakery", "Icing": "Bakery", "Crossiants": "Bakery", "Muffins": "Bakery", "Donuts": "Bakery",
+                 "Cupcakes": "Bakery", "Icing": "Bakery", "Croissants": "Bakery", "Muffins": "Bakery", "Donuts": "Bakery",
                  "Ham Sandwich": "Deli", "Tomato Soup": "Deli", "Turkey Sub": "Deli", "Pastrami": "Deli", "Corned Beef": "Deli",
                   "Popsicles": "Frozen", "Pizza": "Frozen", "Ice Cream":"Frozen", "Kellogs Waffles": "Frozen", "Hot Cheetos": "Grocery", 
                    "Lays": "Grocery", "Salt": "Grocery", "Pasta": "Grocery", "Peanut Butter": "Grocery", "Fruit Snacks": "Grocery",
