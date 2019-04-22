@@ -1,7 +1,7 @@
 # InstaKart
 InstaKart is a solution to the massive hassle of inefficient grocery shopping.
 With a lost cost screen built right into your shopping cart and a mobile app, we'll let you know exactly what path makes
-the most sense to pickup all your items. We also let you track your todo list straight on the cart!
+the most sense to pickup all your items. We also let you track your todo list straight on the cart! Learn more at vanessaseto.com/instakart.html
 
 ## Table of Contents
 - [How it Works](#how-it-works)
